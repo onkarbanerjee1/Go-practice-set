@@ -16,15 +16,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	//if mode is not device then need to read from stdin and get md5sum
+	//if mode is not device(file) then need to read from stdin and get md5sum
 	if fi.Mode()&os.ModeDevice == 0 {
 		fmt.Println("Calculate the md5sum of contents of file contents from stdin ")
 		fmt.Printf("%x\n", MD5sum())
-		//if mode is device then need to return it's own md5sum since no data available on stdin
+		//if mode is device then need to read data from device(file)
 	} else if len(os.Args) > 1 {
 		fmt.Println("Calculate the md5sum of contents of given file name ")
 		fmt.Printf("%x\n", MD5SumFile(os.Args[1]))
 	} else {
+		//if no file name supplied then use own file name to return md5sum of it's own
 		fmt.Println("Calculate the md5sum of contents of own file name ")
 		fmt.Printf("%x\n", MD5SumFile("md5sum"))
 	}
